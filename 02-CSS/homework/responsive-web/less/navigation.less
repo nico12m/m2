@@ -1,1 +1,32 @@
 // Código de Nav acá
+.naveg{
+   background-color: @nav-bg;
+ color:@nav-font;
+ border:1px solid @nav-border;
+ text-align: center;
+ margin-bottom: 10px;
+ padding: 10px;
+    .flex(column,center,center);
+ h1{
+    font-size: 35px;
+    margin:10px 0;
+    padding: 10px;
+ }
+ ul{
+    width: 60%;
+    .flex(row,space-evenly,baseline);
+ }
+ li{
+    font-size: 16px;
+ }
+ @media @phone{
+   padding: 12px;
+   ul{
+      width: 100%;
+      justify-content: space-around;
+      li{
+         font-size: 13px;
+      }
+   }
+ }
+}
