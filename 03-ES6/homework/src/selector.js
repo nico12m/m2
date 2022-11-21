@@ -1,15 +1,20 @@
-var traverseDomAndCollectElements = function(matchFunc, startEl) {
+var traverseDomAndCollectElements = function(matchFunc, startEl = document.body) {
   var resultSet = [];
 
-  if (typeof startEl === "undefined") {
-    startEl = document.body;
-  }
+  // if (typeof startEl === "undefined") {
+  //   startEl = document.body;
+  // }
 
   // recorre el árbol del DOM y recolecta elementos que matchien en resultSet
   // usa matchFunc para identificar elementos que matchien
 
   // TU CÓDIGO AQUÍ
-  
+  if(matchFunc(startEl)) resultSet.push(startEl);
+  for (child of startEl.children){
+    let partialResult = traverseDomAndCollectElements(matchFunc,child);
+    resultSet = [...resultSet,...partialResult];
+  }
+  return resultSet;
 };
 
 // Detecta y devuelve el tipo de selector
@@ -40,13 +45,13 @@ var matchFunctionMaker = function(selector) {
     
   } else if (selectorType === "tag.class") {
     matchFunction = (element)=>{
-    const [tagName,className] = element.split(".");
-    return matchFunctionMaker(tagName)(element) && matchFunctionMaker("."+ className)(element);
+    const [tagName,className] = selector.split(".");
+    return ( matchFunctionMaker(tagName)(element) && matchFunctionMaker("."+ className)(element));
     }
     
   } else if (selectorType === "tag") {
     
-    matchFunction = (element)=> element.tagName===selector.toUpperCase;
+    matchFunction = (element)=> element.tagName===selector.toUpperCase();
   }
   return matchFunction;
 };
